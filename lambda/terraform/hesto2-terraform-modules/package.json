@@ -1,0 +1,14 @@
+{
+  "name": "hesto2-terraform-modules",
+  "description": "modules to aid with side projects",
+  "repository": "https://github.com/hesto2/hesto2-terraform-modules",
+  "version": "0.0.27",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@hesto2/config": "^0.0.36",
+    "husky": "^4.2.5"
+  }
+}
