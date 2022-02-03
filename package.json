@@ -20,7 +20,7 @@
     "deploy": "cd ./lambda && yarn && yarn deploy",
     "start": "react-scripts start",
     "build": "CI=\"\" PUBLIC_URL=\"https://jupiteronewordle.hesto2.com\" react-scripts build",
-    "test": "react-scripts test",
+    "test": "echo no",
     "eject": "react-scripts eject",
     "typecheck": "tsc --noEmit"
   },
