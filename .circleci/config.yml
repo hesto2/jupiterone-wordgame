@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: hesto2/aws-terraform-node12:latest
+      - image: hesto2/aws-terraform-node14:latest
     steps:
       - checkout
       - run:
