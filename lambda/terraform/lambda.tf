@@ -7,7 +7,32 @@ module "api_gateway_lambda" {
   filename = "deploy.zip"
   lambda_environment_variables = {
     NODE_ENV = "production"
+    DATA_BUCKET_NAME = aws_s3_bucket.wordle_bucket.id
+    ADMIN_PASSWORD = base64decode('anVwaXRlcm9uZW1hcmtldGluZ3Bhc3N3b3Jk')
   }
+}
+
+resource "aws_iam_role_policy_attachment" "attachment" {
+  role       = "${module.api_gateway_lambda.role_name}"
+  policy_arn = "${aws_iam_policy.iam_policy.arn}"
+}
+resource "aws_iam_policy" "iam_policy" {
+  path = "/"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "s3:*"
+        ],
+        "Resource": "${aws_s3_bucket.wordle_bucket.arn}/*"
+    }
+  ]
+}
+EOF
 }
 
 data "terraform_remote_state" "infrastructure_state" {
