@@ -82,7 +82,7 @@ function App() {
       );
       setTimeout(() => {
         setSuccessAlert('');
-        // setIsStatsModalOpen(true);
+        setIsStatsModalOpen(true);
       }, ALERT_TIME_MS);
     }
     if (isGameLost) {
