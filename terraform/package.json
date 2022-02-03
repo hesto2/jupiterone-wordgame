@@ -1,0 +1,9 @@
+{
+  "name": "terraform",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "hesto2-terraform-modules": "^0.0.13"
+  }
+}

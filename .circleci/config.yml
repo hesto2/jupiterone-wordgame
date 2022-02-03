@@ -1,0 +1,34 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: hesto2/aws-terraform-node12:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            yarn install
+      - run:
+          name: Install Dependencies
+          command: |
+            yarn test
+      - run:
+          name: Build
+          command: |
+            CI="" yarn build
+      - run:
+          name: Deploy to prod
+          command: |
+            yarn deploy
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: hesto2-aws
+          filters:
+            branches:
+              only:
+                - master

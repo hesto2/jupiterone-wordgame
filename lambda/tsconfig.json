@@ -1,0 +1,13 @@
+{
+  "extends": "./node_modules/@hesto2/config/tsconfig.json",
+  "include": ["./src/**/*.ts"],
+  "exclude": [
+    "typings/browser.d.ts",
+    "typings/browser",
+    "./node_modules",
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "types": ["node"]
+  }
+}
