@@ -2207,6 +2207,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hesto2-terraform-modules@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/hesto2-terraform-modules/-/hesto2-terraform-modules-0.0.27.tgz#bc1710ea2fbd8347bd3db3e181c0b15f33d110dd"
+  integrity sha512-XCrVDUihln2Xs5P7kqz0ynnyFq/NwbL4dPw2KaeKNtziQ2ef0CtISSZ8eDaZ3uPiMteuRU3bLryMR5M5+/5P3A==
+
 hosted-git-info@^2.1.4:
   version "2.8.9"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
