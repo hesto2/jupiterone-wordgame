@@ -28,8 +28,8 @@ export type CharValue =
   | 'N'
   | 'M'
 export const getGuessStatuses = (guess: string ,solution: string): CharStatus[] => {
-  const splitSolution = solution.split('')
-  const splitGuess = guess.split('')
+  const splitSolution = solution.toUpperCase().split('')
+  const splitGuess = guess.toUpperCase().split('')
 
   const solutionCharsTaken = splitSolution.map((_) => false)
 

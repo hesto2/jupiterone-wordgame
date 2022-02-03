@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Request, Response } from 'express';
-import { useCommonMiddleware, useNotFoundHandler } from '@hesto2/express-utils';
+import { useCommonMiddleware } from '@hesto2/express-utils';
 import { authenticate } from './auth';
 import { getGuessStatuses } from './lib';
 import { getTodayWord, updateWords, getAllWords } from './dao';
@@ -39,8 +39,10 @@ const getApp = () => {
     const words = await getAllWords();
     return res.status(200).json(words);
   });
+
+  // Expects an array of strings
   app.put('/words', authenticate, async (req, res) => {
-    const words = await updateWords(req.body.words);
+    const words = await updateWords(req.body);
     return res.status(200).json(words);
   });
 
