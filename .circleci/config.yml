@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: hesto2/aws-terraform-node14:latest
+    environment:
+      AWS_REGION: us-west-2
     steps:
       - checkout
       - run:
