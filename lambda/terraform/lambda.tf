@@ -7,7 +7,7 @@ module "api_gateway_lambda" {
   filename = "deploy.zip"
   lambda_environment_variables = {
     NODE_ENV = "production"
-    DATA_BUCKET_NAME = aws_s3_bucket.wordle_bucket.id
+    DATA_BUCKET_NAME = jupiterone-wordle-data
     ADMIN_PASSWORD = base64decode("anVwaXRlcm9uZW1hcmtldGluZ3Bhc3N3b3Jk")
   }
 }

@@ -1,4 +1,4 @@
-const Bucket = process.env.S3_BUCKET;
+const Bucket = 'jupiterone-wordle-data';
 const Key = 'words.txt';
 import { S3 } from 'aws-sdk';
 const s3 = new S3();
@@ -17,7 +17,7 @@ export const getTodayWord = async (): Promise<string> => {
 export const getAllWords = async (): Promise<string[]> => {
   const result = await s3.getObject({ Bucket, Key }).promise();
   const body = result.Body.toString();
-  console.log('body', body)
+  console.log('body', body);
   return JSON.parse(body);
 };
 export const updateWords = async (newWords: string[]): Promise<string[]> => {
