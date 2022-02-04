@@ -1,4 +1,4 @@
-export const GAME_TITLE = '';
+export const GAME_TITLE = 'J1 Word Game';
 
 export const WIN_MESSAGES = ['Great Job!', 'Awesome', 'Well done!'];
 export const GAME_COPIED_MESSAGE = 'Game copied to clipboard';
