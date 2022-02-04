@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { submitWord } from '../../api';
-import { CharStatus, getGuessStatuses } from '../../lib/statuses';
+import { CharStatus } from '../../lib/statuses';
 import { Cell } from './Cell';
 
 type Props = {
