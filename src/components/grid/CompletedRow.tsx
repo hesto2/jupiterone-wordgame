@@ -1,12 +1,17 @@
-import { getGuessStatuses } from '../../lib/statuses'
-import { Cell } from './Cell'
+import { useEffect, useState } from 'react';
+import { submitWord } from '../../api';
+import { CharStatus, getGuessStatuses } from '../../lib/statuses';
+import { Cell } from './Cell';
 
 type Props = {
-  guess: string
-}
+  guess: string;
+};
 
 export const CompletedRow = ({ guess }: Props) => {
-  const statuses = getGuessStatuses(guess)
+  const [statuses, setStatuses] = useState<CharStatus[]>([]);
+  useEffect(() => {
+    submitWord(guess).then(setStatuses);
+  }, [guess]);
 
   return (
     <div className="flex justify-center mb-1">
@@ -14,5 +19,5 @@ export const CompletedRow = ({ guess }: Props) => {
         <Cell key={i} value={letter} status={statuses[i]} />
       ))}
     </div>
-  )
-}
+  );
+};

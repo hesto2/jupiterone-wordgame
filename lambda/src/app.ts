@@ -25,7 +25,7 @@ const getApp = () => {
     next(err);
   });
   app.post('/submit', async (req, res) => {
-    const body: { word: string } = req.body;
+    const body = req.body;
     const todayWord = await getTodayWord();
     const statuses = getGuessStatuses(body.word, todayWord);
     return res.status(200).json(statuses);

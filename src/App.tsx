@@ -23,6 +23,7 @@ import {
 } from './lib/localStorage';
 
 import './App.css';
+import { submitWord } from './api';
 
 const ALERT_TIME_MS = 2000;
 
@@ -102,7 +103,7 @@ function App() {
     setCurrentGuess(currentGuess.slice(0, -1));
   };
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (isGameWon || isGameLost) {
       return;
     }
@@ -120,7 +121,8 @@ function App() {
       }, ALERT_TIME_MS);
     }
 
-    const winningWord = isWinningWord(currentGuess);
+    const charStatuses = await submitWord(currentGuess)
+    const winningWord = isWinningWord(charStatuses);
 
     if (currentGuess.length === 5 && guesses.length < 6 && !isGameWon) {
       setGuesses([...guesses, currentGuess]);
