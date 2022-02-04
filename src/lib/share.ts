@@ -6,7 +6,7 @@ import { submitWord } from '../api';
 export const shareStatus = async (guesses: string[], lost: boolean) => {
   const emojiiGrid = await generateEmojiGrid(guesses);
   navigator.clipboard.writeText(
-    `${GAME_TITLE} ${lost ? 'X' : guesses.length}/6\n\n` + emojiiGrid
+    `${GAME_TITLE} ${lost ? '6' : guesses.length}/6\n\n` + emojiiGrid
   );
 };
 
