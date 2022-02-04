@@ -17,7 +17,6 @@ export const getTodayWord = async (): Promise<string> => {
 export const getAllWords = async (): Promise<string[]> => {
   const result = await s3.getObject({ Bucket, Key }).promise();
   const body = result.Body.toString();
-  console.log('body', body);
   return JSON.parse(body);
 };
 export const updateWords = async (newWords: string[]): Promise<string[]> => {
