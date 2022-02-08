@@ -18,7 +18,7 @@
   },
   "scripts": {
     "deploy": "cd ./lambda && yarn && yarn deploy",
-    "start": "react-scripts start",
+    "start": "REACT_APP_API_URL='https://jupiteronewordle.hesto2.com' react-scripts start",
     "build": "CI=\"\" PUBLIC_URL=\"https://jupiteronewordle.hesto2.com\" react-scripts build",
     "test": "echo no",
     "eject": "react-scripts eject",

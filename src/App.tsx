@@ -42,6 +42,7 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [successAlert, setSuccessAlert] = useState('');
+  const [solutionWord, setSolutionWord] = useState<string>();
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage();
     if (loaded?.solution !== solution) {
@@ -73,8 +74,8 @@ function App() {
   };
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution });
-  }, [guesses]);
+    saveGameStateToLocalStorage({ guesses, solution: solutionWord || '' });
+  }, [guesses, solutionWord]);
 
   useEffect(() => {
     if (isGameWon) {
@@ -121,7 +122,7 @@ function App() {
       }, ALERT_TIME_MS);
     }
 
-    const charStatuses = await submitWord(currentGuess)
+    const charStatuses = await submitWord(currentGuess);
     const winningWord = isWinningWord(charStatuses);
 
     if (currentGuess.length === 5 && guesses.length < 6 && !isGameWon) {
@@ -130,6 +131,7 @@ function App() {
 
       if (winningWord) {
         setStats(addStatsForCompletedGame(stats, guesses.length));
+        setSolutionWord(currentGuess);
         return setIsGameWon(true);
       }
 

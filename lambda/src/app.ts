@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 import { useCommonMiddleware } from '@hesto2/express-utils';
 import { authenticate } from './auth';
 import { getGuessStatuses } from './lib';
-import { getTodayWord, updateWords, getAllWords } from './dao';
+import { getTodayWord, updateWords, getAllWords, getTodayID } from './dao';
 
 const getApp = () => {
   const app = express();
@@ -39,6 +39,14 @@ const getApp = () => {
     try {
       const word = await getTodayWord();
       return res.status(200).json(word);
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  });
+  app.get('/wordId', authenticate, async (req, res) => {
+    try {
+      const id = await getTodayID();
+      return res.status(200).json({ id });
     } catch (err) {
       return res.status(500).send(err);
     }
