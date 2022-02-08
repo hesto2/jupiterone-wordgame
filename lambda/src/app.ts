@@ -43,7 +43,7 @@ const getApp = () => {
       return res.status(500).send(err);
     }
   });
-  app.get('/wordId', authenticate, async (req, res) => {
+  app.get('/wordId', async (req, res) => {
     try {
       const id = await getTodayID();
       return res.status(200).json({ id });
