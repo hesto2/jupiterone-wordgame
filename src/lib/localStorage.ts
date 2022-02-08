@@ -1,9 +1,10 @@
 const gameStateKey = 'gameState';
 
-type StoredGameState = {
+export type StoredGameState = {
   guesses: string[];
   solution: string;
-  lastWordTime?: number;
+  lastWordId?: number;
+  solved?: boolean;
 };
 
 export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {

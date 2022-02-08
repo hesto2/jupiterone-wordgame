@@ -20,10 +20,11 @@ import { addStatsForCompletedGame, loadStats } from './lib/stats';
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
+  StoredGameState,
 } from './lib/localStorage';
 
 import './App.css';
-import { submitWord } from './api';
+import { getWordID, submitWord } from './api';
 
 const ALERT_TIME_MS = 2000;
 
@@ -42,6 +43,7 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [successAlert, setSuccessAlert] = useState('');
+  const [wordId, setWordId] = useState<number | null>(null);
   const [solutionWord, setSolutionWord] = useState<string>();
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage();
@@ -61,6 +63,12 @@ function App() {
   const [stats, setStats] = useState(() => loadStats());
 
   useEffect(() => {
+    getWordID().then(({ id }) => {
+      setWordId(id);
+    });
+  }, []);
+
+  useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -74,8 +82,22 @@ function App() {
   };
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution: solutionWord || '' });
-  }, [guesses, solutionWord]);
+    const gameState: StoredGameState = {
+      guesses,
+      solution: solutionWord || '',
+      solved: Boolean(solutionWord),
+    };
+    const currentState = loadGameStateFromLocalStorage();
+
+    if (wordId) {
+      if (currentState?.lastWordId !== wordId) {
+        setGuesses([]);
+        setSolutionWord('');
+      }
+      saveGameStateToLocalStorage({ ...gameState, lastWordId: wordId });
+    }
+    gameState.solved;
+  }, [guesses, solutionWord, wordId]);
 
   useEffect(() => {
     if (isGameWon) {
