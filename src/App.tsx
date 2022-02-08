@@ -65,6 +65,13 @@ function App() {
   useEffect(() => {
     getWordID().then(({ id }) => {
       setWordId(id);
+      const currentState = loadGameStateFromLocalStorage();
+      if (currentState?.lastWordId !== id) {
+        setGuesses([]);
+        setSolutionWord('');
+      } else {
+        setGuesses(currentState.guesses);
+      }
     });
   }, []);
 
@@ -96,7 +103,6 @@ function App() {
       }
       saveGameStateToLocalStorage({ ...gameState, lastWordId: wordId });
     }
-    gameState.solved;
   }, [guesses, solutionWord, wordId]);
 
   useEffect(() => {
@@ -195,6 +201,7 @@ function App() {
         gameStats={stats}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
+        wordId={wordId}
         handleShare={() => {
           setSuccessAlert(GAME_COPIED_MESSAGE);
           return setTimeout(() => setSuccessAlert(''), ALERT_TIME_MS);
