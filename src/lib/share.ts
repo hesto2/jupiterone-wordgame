@@ -3,10 +3,18 @@ import { solutionIndex } from './words';
 import { GAME_TITLE } from '../constants/strings';
 import { submitWord } from '../api';
 
-export const shareStatus = async (guesses: string[], lost: boolean) => {
+export const shareStatus = async (
+  guesses: string[],
+  lost: boolean,
+  wordId: number | null
+) => {
   const emojiiGrid = await generateEmojiGrid(guesses);
   navigator.clipboard.writeText(
-    `JupiterOne Cybersecurity Word Game ${lost ? 'X' : guesses.length}/6\n\n` + emojiiGrid + '\n\n Play free: https://www.jupiterone.com/wordgame'
+    `JupiterOne Cybersecurity Word Game ${wordId || ''} ${
+      lost ? '6' : guesses.length
+    }/6\n\n` +
+      emojiiGrid +
+      '\n\n Play free: https://www.jupiterone.com/wordgame'
   );
 };
 

@@ -20,10 +20,11 @@ import { addStatsForCompletedGame, loadStats } from './lib/stats';
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
+  StoredGameState,
 } from './lib/localStorage';
 
 import './App.css';
-import { submitWord } from './api';
+import { getWordID, submitWord } from './api';
 
 const ALERT_TIME_MS = 2000;
 
@@ -42,6 +43,8 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [successAlert, setSuccessAlert] = useState('');
+  const [wordId, setWordId] = useState<number | null>(null);
+  const [solutionWord, setSolutionWord] = useState<string>();
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage();
     if (loaded?.solution !== solution) {
@@ -60,6 +63,19 @@ function App() {
   const [stats, setStats] = useState(() => loadStats());
 
   useEffect(() => {
+    getWordID().then(({ id }) => {
+      setWordId(id);
+      const currentState = loadGameStateFromLocalStorage();
+      if (currentState?.lastWordId !== id) {
+        setGuesses([]);
+        setSolutionWord('');
+      } else {
+        setGuesses(currentState.guesses);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -73,8 +89,21 @@ function App() {
   };
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution });
-  }, [guesses]);
+    const gameState: StoredGameState = {
+      guesses,
+      solution: solutionWord || '',
+      solved: Boolean(solutionWord),
+    };
+    const currentState = loadGameStateFromLocalStorage();
+
+    if (wordId) {
+      if (currentState?.lastWordId !== wordId) {
+        setGuesses([]);
+        setSolutionWord('');
+      }
+      saveGameStateToLocalStorage({ ...gameState, lastWordId: wordId });
+    }
+  }, [guesses, solutionWord, wordId]);
 
   useEffect(() => {
     if (isGameWon) {
@@ -121,7 +150,7 @@ function App() {
       }, ALERT_TIME_MS);
     }
 
-    const charStatuses = await submitWord(currentGuess)
+    const charStatuses = await submitWord(currentGuess);
     const winningWord = isWinningWord(charStatuses);
 
     if (currentGuess.length === 5 && guesses.length < 6 && !isGameWon) {
@@ -130,6 +159,7 @@ function App() {
 
       if (winningWord) {
         setStats(addStatsForCompletedGame(stats, guesses.length));
+        setSolutionWord(currentGuess);
         return setIsGameWon(true);
       }
 
@@ -171,6 +201,7 @@ function App() {
         gameStats={stats}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
+        wordId={wordId}
         handleShare={() => {
           setSuccessAlert(GAME_COPIED_MESSAGE);
           return setTimeout(() => setSuccessAlert(''), ALERT_TIME_MS);
