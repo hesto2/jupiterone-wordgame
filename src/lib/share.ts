@@ -6,7 +6,7 @@ import { submitWord } from '../api';
 export const shareStatus = async (guesses: string[], lost: boolean) => {
   const emojiiGrid = await generateEmojiGrid(guesses);
   navigator.clipboard.writeText(
-    `${GAME_TITLE} ${lost ? 'X' : guesses.length}/6\n\n` + emojiiGrid
+    `JupiterOne Cybersecurity Word Game ${lost ? 'X' : guesses.length}/6\n\n` + emojiiGrid + '\n\n Play free: https://www.jupiterone.com/wordgame'
   );
 };
 
