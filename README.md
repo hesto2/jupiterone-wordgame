@@ -1,3 +1,4 @@
+Check out the actual site here: https://info.jupiterone.com/wordgame
 I copied pretty much all the UI from this: https://github.com/hannahcode/word-guessing-game
 
 ## Env vars go in a .env file
