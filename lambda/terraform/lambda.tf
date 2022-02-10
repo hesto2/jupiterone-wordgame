@@ -8,7 +8,7 @@ module "api_gateway_lambda" {
   lambda_environment_variables = {
     NODE_ENV = "production"
     DATA_BUCKET_NAME = "jupiterone-wordle-data"
-    ADMIN_PASSWORD = base64decode("anVwaXRlcm9uZW1hcmtldGluZ3Bhc3N3b3Jk")
+    ADMIN_PASSWORD = "${data.aws_secretsmanager_secret_version.admin_key.secret_string}"
   }
 }
 
@@ -43,4 +43,7 @@ data "terraform_remote_state" "infrastructure_state" {
     region="us-west-2"
     dynamodb_table = "terraform-lock"
   }
+}
+data "aws_secretsmanager_secret_version" "admin_key" {
+  secret_id = "jupiterone_wordle_admin_key"
 }
