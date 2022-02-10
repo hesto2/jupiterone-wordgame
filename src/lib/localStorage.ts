@@ -1,3 +1,5 @@
+import { KeyStates } from './getKeyStates';
+
 const gameStateKey = 'gameState';
 
 export type StoredGameState = {
@@ -5,6 +7,7 @@ export type StoredGameState = {
   solution: string;
   lastWordId?: number;
   solved?: boolean;
+  keyStates?: KeyStates;
 };
 
 export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {

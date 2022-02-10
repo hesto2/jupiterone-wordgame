@@ -25,6 +25,8 @@ import {
 
 import './App.css';
 import { getWordID, submitWord } from './api';
+import { CharStatus } from './lib/statuses';
+import { getKeyStates, KeyStates } from './lib/getKeyStates';
 
 const ALERT_TIME_MS = 2000;
 
@@ -45,6 +47,7 @@ function App() {
   const [successAlert, setSuccessAlert] = useState('');
   const [wordId, setWordId] = useState<number | null>(null);
   const [solutionWord, setSolutionWord] = useState<string>();
+  const [keyStates, setKeyStates] = useState<KeyStates>({});
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage();
     if (loaded?.solution !== solution) {
@@ -69,7 +72,9 @@ function App() {
       if (currentState?.lastWordId !== id) {
         setGuesses([]);
         setSolutionWord('');
+        setKeyStates({});
       } else {
+        setKeyStates(currentState?.keyStates || {});
         setGuesses(currentState.guesses);
       }
     });
@@ -101,7 +106,11 @@ function App() {
         setGuesses([]);
         setSolutionWord('');
       }
-      saveGameStateToLocalStorage({ ...gameState, lastWordId: wordId });
+      saveGameStateToLocalStorage({
+        ...gameState,
+        lastWordId: wordId,
+        keyStates,
+      });
     }
   }, [guesses, solutionWord, wordId]);
 
@@ -150,8 +159,14 @@ function App() {
       }, ALERT_TIME_MS);
     }
 
-    const charStatuses = await submitWord(currentGuess);
-    const winningWord = isWinningWord(charStatuses);
+    const charStatusResult = await submitWord(currentGuess);
+    const newKeyStates = getKeyStates(
+      currentGuess,
+      charStatusResult,
+      keyStates
+    );
+    setKeyStates(newKeyStates);
+    const winningWord = isWinningWord(charStatusResult);
 
     if (currentGuess.length === 5 && guesses.length < 6 && !isGameWon) {
       setGuesses([...guesses, currentGuess]);
@@ -188,7 +203,7 @@ function App() {
         onChar={onChar}
         onDelete={onDelete}
         onEnter={onEnter}
-        guesses={guesses}
+        keyStates={keyStates}
       />
       <InfoModal
         isOpen={isInfoModalOpen}
