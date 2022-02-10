@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hesto2/wordle"
+    "url": "https://github.com/hesto2/wordgame"
   },
   "bugs": {
-    "url": "https://github.com/hesto2/wordle/issues"
+    "url": "https://github.com/hesto2/wordgame/issues"
   },
   "scripts": {
     "deploy": "cd ./lambda && yarn && yarn deploy",
-    "start": "REACT_APP_API_URL='https://jupiteronewordle.hesto2.com' react-scripts start",
-    "build": "CI=\"\" PUBLIC_URL=\"https://jupiteronewordle.hesto2.com\" react-scripts build",
+    "start": "REACT_APP_API_URL='https://jupiteronewordgame.hesto2.com' react-scripts start",
+    "build": "CI=\"\" PUBLIC_URL=\"https://jupiteronewordgame.hesto2.com\" react-scripts build",
     "test": "echo no",
     "eject": "react-scripts eject",
     "typecheck": "tsc --noEmit"
