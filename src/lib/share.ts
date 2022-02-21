@@ -33,11 +33,8 @@ export const shareStatus = async (
       .then(function () { console.log('copied'); })
       .catch(function (error) { console.log(error); });
   }
-
-
-
-
 }
+
 export const generateEmojiGrid = async (guesses: string[]) => {
   const promises = guesses.map(async (guess) => {
     const status = await submitWord(guess);
