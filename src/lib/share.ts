@@ -8,9 +8,24 @@ export const shareStatus = async (
   wordId: number | null
 ) => {
 
-  var iOS = /(iP*)/g.test(navigator.userAgent)
+  var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Windows Phone/i.test(navigator.userAgent);
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  console.log(isSafari, 'isSafari')
+  if (isMobile) {
+    const emojiiGrid = await generateEmojiGrid(guesses);
+    navigator
+    .share({
+        title: document.title,
+        text: `JupiterOne Cybersecurity Word Game ${wordId || ''} ${lost ? '6' : guesses.length}/6\n\n` +
+        emojiiGrid +
+        '\n\n Play free: https://www.jupiterone.com/wordgame',
+        
+    })
+    .then(() => console.log('Successful share! 🎉'))
+    .catch(err => console.error(err));
+
+  }
+  else{
+
   if (!isSafari) {
     const emojiiGrid = await generateEmojiGrid(guesses);
 
@@ -33,6 +48,7 @@ export const shareStatus = async (
       .then(function () { console.log('copied'); })
       .catch(function (error) { console.log(error); });
   }
+}
 }
 
 export const generateEmojiGrid = async (guesses: string[]) => {
