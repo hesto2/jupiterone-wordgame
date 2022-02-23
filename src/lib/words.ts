@@ -1,9 +1,13 @@
 import { WORDS } from '../constants/wordlist';
 import { CharStatus } from './statuses';
+import { VALID_GUESSES } from '../constants/validGuesses'
 
 export const isWordInWordList = (word: string) => {
-  return true;
-};
+  return (
+    WORDS.includes(word.toLowerCase()) ||
+    VALID_GUESSES.includes(word.toLowerCase())
+  )
+}
 
 export const isWinningWord = (statuses: CharStatus[]) => {
   let isWinning = true;
@@ -22,7 +26,7 @@ export const getWordOfDay = () => {
   const msInDay = 86400000;
   const index = Math.floor((now - epochMs) / msInDay);
   const nextday = (index + 1) * msInDay + epochMs;
-
+  console.log("index", index, nextday)
   return {
     solution: "not a real solution",
     solutionIndex: index,
