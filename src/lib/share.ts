@@ -54,6 +54,7 @@ export const shareStatus = async (
 export const generateEmojiGrid = async (guesses: string[]) => {
   const promises = guesses.map(async (guess) => {
     const status = await submitWord(guess);
+
     return guess
       .split('')
       .map((letter, i) => {
