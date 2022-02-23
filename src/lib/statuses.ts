@@ -34,7 +34,7 @@ export const getStatuses = (
   guesses: string[]
 ): { [key: string]: CharStatus } => {
   const charObj: { [key: string]: CharStatus } = {};
-
+  
   guesses.forEach((word) => {
     word.split('').forEach((letter, i) => {
       if (!solution.includes(letter)) {
